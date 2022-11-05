@@ -8,7 +8,6 @@ const fs = require('fs');
 
 const { GatewayIntentBits } = require('discord.js');
 const Discord = require('discord.js');
-const { channel } = require('diagnostics_channel');
 const client = new Discord.Client({
     intents: [
         GatewayIntentBits.Guilds,
