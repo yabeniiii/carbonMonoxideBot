@@ -1,6 +1,3 @@
-//import dotenv from 'dotenv';
-//dotenv.config();
-
 const { config } = require('dotenv');
 config();
 
@@ -27,7 +24,9 @@ client.on('ready', () => {
 client.on('messageCreate', async (input) => {
     let counterJSON = JSON.parse(fs.readFileSync('counter.json'));
     let message = input.content.toLowerCase();
-    console.log(`${input.author} says: ${input.content}`);
+    if(!input?.author.bot) {
+        console.log(`${input.author.tag} says: ${input.content}`);
+    }   
     const embed = {
 	    color: 0x0099ff,
     	title: `${input.content}`,
@@ -52,6 +51,12 @@ client.on('messageCreate', async (input) => {
         //client.channels.cache.get('1037528965428027462').send({embeds: [embed]});
     }
     fs.writeFileSync("counter.json", JSON.stringify(counterJSON));
+});
+
+var stdin = process.openStdin();
+
+stdin.on('data', data => {
+    client.channels.cache.get(`${process.env.CHANNEL_ID}`).send(data.toString());
 });
 
 client.login(`${process.env.DISCORD_TOKEN}`);
